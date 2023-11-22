@@ -9,6 +9,7 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255, blank=True)
     content = models.TextField(blank=True)
+    task_file = models.FileField(upload_to='task_files/', null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
     overdue = models.BooleanField(default=False)
     CATEGORY_CHOICES = [

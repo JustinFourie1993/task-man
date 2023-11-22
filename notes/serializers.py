@@ -7,6 +7,7 @@ class NoteSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    task = serializers.ReadOnlyField(source='task.id')
 
     class Meta:
         model = Note

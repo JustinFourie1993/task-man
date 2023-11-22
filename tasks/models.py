@@ -12,6 +12,15 @@ class Task(models.Model):
     task_file = models.FileField(upload_to='task_files/', null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
     overdue = models.BooleanField(default=False)
+    PRIORITY_CHOICES = [
+        ('LOW', 'Low'),
+        ('MEDIUM', 'Medium'),
+        ('HIGH', 'High'),
+    ]
+    priority = models.CharField(
+        max_length=6,
+        choices=PRIORITY_CHOICES,
+        default='LOW',)
     CATEGORY_CHOICES = [
         ('WORK', 'Work'),
         ('PERSONAL', 'Personal'),

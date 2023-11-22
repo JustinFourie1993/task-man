@@ -7,7 +7,7 @@ from .serializers import TaskSerializer
 
 
 class TaskList(generics.ListCreateAPIView):
-   
+
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Task.objects.all().order_by('created_at')

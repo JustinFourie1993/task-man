@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Task(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    owners = models.ManyToManyField(User, related_name='tasks')
+    owners = models.ManyToManyField(User, related_name='owned_tasks')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255, blank=True)

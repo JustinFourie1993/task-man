@@ -22,6 +22,21 @@ class TaskSerializer(serializers.ModelSerializer):
                 "File size too large. The maximum file size is 2MB.")
         return value
 
+    def create(self, validated_data):
+        owners_data = validated_data.pop('owners')
+        task = Task.objects.create(**validated_data)
+        task.owners.set(owners_data)
+        return task
+
+    def update(self, instance, validated_data):
+        owners_data = validated_data.pop('owners', None)
+        instance = super().update(instance, validated_data)
+
+        if owners_data is not None:
+            instance.owners.set(owners_data)
+
+        return instance
+
     class Meta:
         model = Task
         fields = [

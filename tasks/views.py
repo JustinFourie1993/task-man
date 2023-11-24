@@ -10,7 +10,7 @@ class TaskList(generics.ListCreateAPIView):
 
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Task.objects.all().order_by('created_at')
+    queryset = Task.objects.all().order_by('-created_at')
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
@@ -25,6 +25,7 @@ class TaskList(generics.ListCreateAPIView):
         'owner__profile',
     ]
     ordering_fields = [
+        'notes_count',
         'category',
         'priority',
     ]
@@ -36,4 +37,4 @@ class TaskList(generics.ListCreateAPIView):
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsInOwnersOrReadOnly]
-    queryset = Task.objects.all()
+    queryset = Task.objects.all().order_by('-created_at')

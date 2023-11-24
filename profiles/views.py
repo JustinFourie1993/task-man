@@ -9,7 +9,7 @@ from task_man.permissions import IsOwnerOrReadOnly
 
 class ProfileList(APIView):
     def get(self, request):
-        profiles = Profile.objects.all()
+        profiles = Profile.objects.all().order_by('-created_at')
         serializer = ProfileSerializer(profiles, 
             many=True, context={'request': request}
         )

@@ -17,7 +17,7 @@ class TaskSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
 
     def validate_file(self, value):
-        if value.size > 2 * 1024 * 1024:  
+        if value.size > 2 * 1024 * 1024:
             raise serializers.ValidationError(
                 "File size too large. The maximum file size is 2MB.")
         return value
@@ -47,4 +47,3 @@ class TaskSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['created_at', 'updated_at',
                             'owner',]
-        

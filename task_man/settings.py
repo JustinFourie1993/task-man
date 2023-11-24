@@ -67,7 +67,7 @@ DEBUG = True
 # DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    '8000-justinfourie1993-task-ma-vgchaze7bh.us2.codeanyapp.com', ]
+    '8000-justinfourie1993-task-ma-vgchaze7bh.us2.codeanyapp.com', 'https://task-man-cec7dd2494da.herokuapp.com']
 
 
 # Application definition

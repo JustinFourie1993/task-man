@@ -7,4 +7,4 @@ assignees: ''
 
 ---
 
-As a .... i can .... so that ....  .
+As a **** i can **** so that ****  .

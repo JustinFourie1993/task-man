@@ -1,0 +1,8 @@
+.NavBar{
+    border-bottom: 1px solid black;
+}
+
+.dropdown:hover{
+    background-color: lightgrey;
+    
+}

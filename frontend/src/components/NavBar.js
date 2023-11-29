@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 const NavBar = () => {
     return (
-        <container>
+        <Container>
             <Navbar className={styles.NavBar} expand="md" fixed="top">
                 <NavLink to="/">
                     <Navbar.Brand><img src={logo} alt="logo" height="45" /></Navbar.Brand></NavLink>
@@ -31,7 +31,7 @@ const NavBar = () => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-        </container>
+        </Container>
     );
 };
 

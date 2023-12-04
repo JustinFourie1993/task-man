@@ -4,10 +4,10 @@ import logo from '../assets/logo.jpg';
 import styles from '../styles/NavBar.module.css';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
-import { useSetCurrentUser } from '../contexts/CurrentUserContext';
+import { useCurrentUser } from '../contexts/CurrentUserContext';
 
 const NavBar = () => {
-    const currentUser = useSetCurrentUser
+    const currentUser = useCurrentUser();
     const loggedInIcons = <>{currentUser?.username}</>
     const loggedOutIcons =
         <>

@@ -8,7 +8,27 @@ import { useCurrentUser } from '../contexts/CurrentUserContext';
 
 const NavBar = () => {
     const currentUser = useCurrentUser();
-    const loggedInIcons = <>{currentUser?.username}</>
+    console.log(currentUser);
+    const loggedInIcons = 
+        <>
+            <NavLink to="/tasks/create"
+                className={styles.NavLink}
+                activeClassName={styles.Active} >
+                <i class="fa-solid fa-plus"></i>
+                Add Task</NavLink>
+            <NavLink to="/"
+                className={styles.NavLink}
+                onClick = {() => {}} >
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                Sign Out</NavLink>
+            <NavLink to={`/profiles/${currentUser?.profile_id}`}
+                className={styles.NavLink}
+                onClick={() => { }} >
+                <img src={currentUser?.image}/>
+                <i class="fa-regular fa-user"></i>
+                Profile
+                </NavLink>
+            </>;
     const loggedOutIcons =
         <>
             <NavLink to="/signin"
@@ -18,7 +38,7 @@ const NavBar = () => {
                 </i>Sign In</NavLink>
             <NavLink to="/signup"
                 className={styles.NavLink}
-                activeClassName={styles.Active} >
+                activeClassName={styles.Active}>
                 <i className="fa-solid fa-pen-to-square">
                 </i>Sign Up</NavLink> </>;
     return (

@@ -39,7 +39,6 @@ const NavBar = () => {
                 className={styles.NavLink}
                 onClick={() => { }} >
                 <Avatar src={currentUser?.profile_image}  height={40} />
-                <i class="fa-regular fa-user"></i>
                 Profile
                 </NavLink>
             </>;

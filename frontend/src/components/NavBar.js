@@ -4,11 +4,25 @@ import logo from '../assets/logo.jpg';
 import styles from '../styles/NavBar.module.css';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
-import { useCurrentUser } from '../contexts/CurrentUserContext';
+import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
+import Avatar from './Avatar';
+import axios from 'axios';
+import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
 const NavBar = () => {
     const currentUser = useCurrentUser();
-    console.log(currentUser);
+    const setCurrentUser = useSetCurrentUser()
+
+    const { expanded, setExpanded, ref } = useClickOutsideToggle();
+
+    const handlesignOut = async () => {
+        try {
+            await axios.post("dj-rest-auth/logout/")
+            setCurrentUser(null)
+        } catch (err) {
+            console.log(err)
+        }
+    }
     const loggedInIcons = 
         <>
             <NavLink to="/tasks/create"
@@ -18,13 +32,13 @@ const NavBar = () => {
                 Add Task</NavLink>
             <NavLink to="/"
                 className={styles.NavLink}
-                onClick = {() => {}} >
+                onClick = {handlesignOut} >
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 Sign Out</NavLink>
             <NavLink to={`/profiles/${currentUser?.profile_id}`}
                 className={styles.NavLink}
                 onClick={() => { }} >
-                <img src={currentUser?.image}/>
+                <Avatar src={currentUser?.profile_image}  height={40} />
                 <i class="fa-regular fa-user"></i>
                 Profile
                 </NavLink>
@@ -43,10 +57,10 @@ const NavBar = () => {
                 </i>Sign Up</NavLink> </>;
     return (
         <Container>
-            <Navbar className={styles.NavBar} expand="md" fixed="top">
+            <Navbar expanded={expanded} className={styles.NavBar} expand="md" fixed="top">
                 <NavLink to="/">
                     <Navbar.Brand><img src={logo} alt="logo" height="45" /></Navbar.Brand></NavLink>
-                <Navbar.Toggle className={styles.dropdown} aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle ref={ref} onClick={() => setExpanded(!expanded)} className={styles.dropdown} aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                         <NavLink exact to="/"

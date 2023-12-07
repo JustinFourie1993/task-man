@@ -95,9 +95,11 @@ const SignUpForm = () => {
                         )}
 
 
-                        <Button className={`${btnStyles.Button} ${btnStyles.wide}`}  type="submit">
-                            Sign Up
-                        </Button>
+                        <div className={btnStyles.centerButton}>
+                            <Button className={`${btnStyles.Button} ${btnStyles.wide}`} type="submit">
+                                Sign Up
+                            </Button>
+                        </div>
                         {errors.non_field_errors?.map((message, idx) => 
                             <Alert key={idx} variant="warning" className="mt-3">
                                 {message}

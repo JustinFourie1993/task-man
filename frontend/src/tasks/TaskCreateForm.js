@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useRef, useState } from 'react';
 import { Form, Button, Col, Row, Container } from 'react-bootstrap';
 import styles from '../styles/TaskCreateEditForm.module.css'; 
 import btnStyles from "../styles/Button.module.css";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { axiosReq } from '../api/axiosDefaults';
 
 
 const TaskCreateForm = () => {
@@ -14,22 +15,26 @@ const TaskCreateForm = () => {
         priority: '',
         due_date: '',
     });
-    
+
     const [errors, setErrors] = useState({})
+    const { title, category, content, task_file, priority, due_date } = taskData
+    const task_fileInput = useRef(null)
+    const history = useHistory()
 
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        if (name === 'task_file') {
-            URL.revokeObjectURL(name)
+        setTaskData({
+            ...taskData,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    const handleChangeFile = (event) => {
+        if (event.target.files.length) {
+            URL.revokeObjectURL(task_file);
             setTaskData({
                 ...taskData,
-                [name]: event.target.files[0],
-            });
-        } else {
-            setTaskData({
-                ...taskData,
-                [name]: value,
+                task_file: URL.createObjectURL(event.target.files[0]),
             });
         }
     };
@@ -37,17 +42,21 @@ const TaskCreateForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-        Object.keys(taskData).forEach(key => formData.append(key, taskData[key]));
+        formData.append('title', title)
+        formData.append('category', category)
+        formData.append('content', content)
+        formData.append('task_file', task_fileInput.current.files[0])
+        formData.append('priority', priority)
+        formData.append('title', due_date)
 
         try {
-            await axios.post('/api/tasks/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            // Handle success, like redirecting or displaying a success message
-        } catch (error) {
-            // Handle error, like displaying error messages
+            const { data } = await axiosReq.post("/tasks/", formData);
+            history.push(`/tasks/${data.id}`);
+        } catch (err) {
+            console.log(err);
+            if (err.response?.status !== 401) {
+                setErrors(err.response?.data);
+            }
         }
     };
 
@@ -99,7 +108,8 @@ const TaskCreateForm = () => {
                                 type="file"
                                 className={styles.Input}
                                 name="task_file"
-                                onChange={handleChange} />
+                                onChange={handleChangeFile}
+                                ref={task_fileInput} />
                         </Form.Group>
 
                         <Form.Group className={styles.FormGroup}>

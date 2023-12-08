@@ -87,7 +87,14 @@ const TaskCreateForm = () => {
                                 <option value="">Choose...</option>
                                 <option value="WORK">Work</option>
                                 <option value="PERSONAL">Personal</option>
-                                {/* ... other category options ... */}
+                                <option value="HOME">Home</option>
+                                <option value="HEALTH">Health</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="EDUCATION">Education</option>
+                                <option value="SHOPPING">Shopping</option>
+                                <option value="TRAVEL">Travel</option>
+                                <option value="HOBBIES">Hobbies</option>
+                                <option value="SOCIAL">Social</option>
                             </Form.Control>
                         </Form.Group>
 
@@ -123,7 +130,7 @@ const TaskCreateForm = () => {
                                 <option value="">Select Priority</option>
                                 <option value="LOW">Low</option>
                                 <option value="MEDIUM">Medium</option>
-                                {/* ... other priority options ... */}
+                                <option value="HIGH">High</option>
                             </Form.Control>
                         </Form.Group>
 

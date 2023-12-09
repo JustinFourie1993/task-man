@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Col, Row, Container } from 'react-bootstrap';
-import styles from '../styles/TaskCreateEditForm.module.css'; 
+import appStyles from "../App.module.css";
+import styles from '../styles/SignForms.module.css'; 
 import btnStyles from "../styles/Button.module.css";
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { axiosReq } from '../api/axiosDefaults';
+import Alert from "react-bootstrap/Alert";
 
 
 const TaskCreateForm = () => {
@@ -63,7 +65,9 @@ const TaskCreateForm = () => {
     return (
         <Row className={styles.Row}>
             <Col className="my-auto py-2 p-md-2" md={6}>
-                <Container className="p-4">
+                <Container
+                    className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
+                >
                     <h1 className={styles.Header}>Create Task</h1>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className={styles.FormGroup}>
@@ -72,9 +76,14 @@ const TaskCreateForm = () => {
                                 className={styles.Input}
                                 type="text"
                                 name="title"
-                                value={taskData.title}
+                                value={title}
                                 onChange={handleChange} />
                         </Form.Group>
+                        {errors?.title?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Category</Form.Label>
@@ -82,7 +91,7 @@ const TaskCreateForm = () => {
                                 as="select"
                                 className={styles.Input}
                                 name="category"
-                                value={taskData.category}
+                                value={category}
                                 onChange={handleChange}>
                                 <option value="">Choose...</option>
                                 <option value="WORK">Work</option>
@@ -97,6 +106,11 @@ const TaskCreateForm = () => {
                                 <option value="SOCIAL">Social</option>
                             </Form.Control>
                         </Form.Group>
+                        {errors?.category?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Content</Form.Label>
@@ -105,9 +119,14 @@ const TaskCreateForm = () => {
                                 rows={3}
                                 className={styles.Input}
                                 name="content"
-                                value={taskData.content}
+                                value={content}
                                 onChange={handleChange} />
                         </Form.Group>
+                        {errors?.content?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>File</Form.Label>
@@ -118,6 +137,11 @@ const TaskCreateForm = () => {
                                 onChange={handleChangeFile}
                                 ref={task_fileInput} />
                         </Form.Group>
+                        {errors?.task_fileInput?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Priority</Form.Label>
@@ -125,7 +149,7 @@ const TaskCreateForm = () => {
                                 as="select"
                                 className={styles.Input}
                                 name="priority"
-                                value={taskData.priority}
+                                value={priority}
                                 onChange={handleChange}>
                                 <option value="">Select Priority</option>
                                 <option value="LOW">Low</option>
@@ -133,6 +157,11 @@ const TaskCreateForm = () => {
                                 <option value="HIGH">High</option>
                             </Form.Control>
                         </Form.Group>
+                        {errors?.priority?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Due Date</Form.Label>
@@ -140,12 +169,22 @@ const TaskCreateForm = () => {
                                 type="date"
                                 className={styles.Input}
                                 name="due_date"
-                                value={taskData.due_date}
+                                value={due_date}
                                 onChange={handleChange} />
                         </Form.Group>
+                        {errors?.due_date?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <div className={btnStyles.centerButton}>
                             <Button className={`${btnStyles.Button} ${btnStyles.wide}`} type="submit">
+                                Cancel
+                            </Button>
+                            <Button className=
+                                {`${btnStyles.Button} ${btnStyles.wide}`} 
+                                onClick={() => history.goBack()}>
                                 Create Task
                             </Button>
                         </div>

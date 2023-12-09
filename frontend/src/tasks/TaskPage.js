@@ -11,7 +11,7 @@ import Task from './Task';
 
 function TaskPage() {
     const {id} = useParams()
-    const [task, setTask] = useState({results: []})
+    const [task, setTask] = useState({results: [] })
 
     useEffect(() => {
         const handleMount = async () => {
@@ -33,7 +33,7 @@ function TaskPage() {
     return (
         <Row className="h-100">
             <Col className="py-2 p-0 p-lg-2" lg={8}>
-                <Task {...task.results[0]} setTasks={setTask} TaskPage />
+                <Task {...task.results[0]} setTasks={setTask} taskPage />
                 <Container className={appStyles.Content}>
                     Notes
                 </Container>

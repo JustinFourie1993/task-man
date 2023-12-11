@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Col, Row, Container } from 'react-bootstrap';
 import appStyles from "../App.module.css";
 import styles from '../styles/SignForms.module.css'; 
@@ -13,33 +13,33 @@ const TaskCreateForm = () => {
         title: '',
         category: '',
         content: '',
-        task_file: null,
         priority: '',
         due_date: '',
     });
 
     const [errors, setErrors] = useState({})
-    const { title, category, content, task_file, priority, due_date } = taskData
-    const task_fileInput = useRef(null)
+    const { title, category, content, priority, due_date } = taskData
     const history = useHistory()
 
 
     const handleChange = (event) => {
-        setTaskData({
-            ...taskData,
-            [event.target.name]: event.target.value,
-        });
-    };
-
-    const handleChangeFile = (event) => {
-        if (event.target.files.length) {
-            URL.revokeObjectURL(task_file);
+        if (event.target.name === 'due_date' && event.target.value) {
+            // Format the date to ISO string if the changed field is 'due_date'
+            const formattedDate = new Date(event.target.value).toISOString();
             setTaskData({
                 ...taskData,
-                task_file: URL.createObjectURL(event.target.files[0]),
+                [event.target.name]: formattedDate,
+            });
+        } else {
+            // For other fields, set the value as usual
+            setTaskData({
+                ...taskData,
+                [event.target.name]: event.target.value,
             });
         }
     };
+
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,9 +47,8 @@ const TaskCreateForm = () => {
         formData.append('title', title)
         formData.append('category', category)
         formData.append('content', content)
-        formData.append('task_file', task_fileInput.current.files[0])
         formData.append('priority', priority)
-        formData.append('title', due_date)
+        formData.append('due_date', due_date)
 
         try {
             const { data } = await axiosReq.post("/tasks/", formData);
@@ -128,20 +127,6 @@ const TaskCreateForm = () => {
                             </Alert>
                         ))}
 
-                        <Form.Group className={styles.FormGroup}>
-                            <Form.Label>File</Form.Label>
-                            <Form.Control
-                                type="file"
-                                className={styles.Input}
-                                name="task_file"
-                                onChange={handleChangeFile}
-                                ref={task_fileInput} />
-                        </Form.Group>
-                        {errors?.task_fileInput?.map((message, idx) => (
-                            <Alert variant="warning" key={idx}>
-                                {message}
-                            </Alert>
-                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Priority</Form.Label>
@@ -179,12 +164,13 @@ const TaskCreateForm = () => {
                         ))}
 
                         <div className={btnStyles.centerButton}>
-                            <Button className={`${btnStyles.Button} ${btnStyles.wide}`} type="submit">
+                            <Button className={`${btnStyles.Button} ${btnStyles.wide}`}
+                                onClick={() => history.goBack()}>
                                 Cancel
                             </Button>
                             <Button className=
-                                {`${btnStyles.Button} ${btnStyles.wide}`} 
-                                onClick={() => history.goBack()}>
+                                {`${btnStyles.Button} ${btnStyles.wide}`} type="submit"
+                                >
                                 Create Task
                             </Button>
                         </div>

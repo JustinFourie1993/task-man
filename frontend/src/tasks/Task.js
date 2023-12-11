@@ -1,7 +1,5 @@
 import React from 'react'
-import { Card, Button, Media } from 'react-bootstrap';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import Avatar from '../components/Avatar';
+import { Card } from 'react-bootstrap';
 import { useCurrentUser } from '../contexts/CurrentUserContext';
 import styles from "../styles/Task.module.css"
 
@@ -17,7 +15,6 @@ const Task = (props) => {
         owners,
         priority,
         state,
-        task_file,
         title,
         updated_at,
         profile_id,
@@ -25,20 +22,20 @@ const Task = (props) => {
         taskPage,
     } = props
     const currentUser = useCurrentUser();
-    console.log(currentUser)
-    const is_owner = currentUser?.username === owner;
+    const is_owner = currentUser?.username === owner || owners?.includes(currentUser?.username);
     return (
         <Card className={styles.Task}>
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>
+                    <Card.Text>{content}</Card.Text>
                     <strong>Category:</strong> {category} <br />
                     <strong>Due Date:</strong> {due_date} <br />
+                    <strong>Overdue:</strong> {overdue} <br />
                     <strong>Priority:</strong> {priority} <br />
                     <strong>Status:</strong> {state} <br />
                     {overdue && <span className={styles.Overdue}>Overdue</span>}
                 </Card.Text>
-                <Card.Text>{content}</Card.Text>
                 {is_owner && taskPage && "..."}
             </Card.Body>
         </Card>

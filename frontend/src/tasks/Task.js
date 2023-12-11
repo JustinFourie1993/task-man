@@ -25,6 +25,7 @@ const Task = (props) => {
         taskPage,
     } = props
     const currentUser = useCurrentUser();
+    console.log(currentUser)
     const is_owner = currentUser?.username === owner;
     return (
         <Card className={styles.Task}>

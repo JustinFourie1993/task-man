@@ -24,14 +24,12 @@ const TaskCreateForm = () => {
 
     const handleChange = (event) => {
         if (event.target.name === 'due_date' && event.target.value) {
-            // Format the date to ISO string if the changed field is 'due_date'
             const formattedDate = new Date(event.target.value).toISOString();
             setTaskData({
                 ...taskData,
                 [event.target.name]: formattedDate,
             });
         } else {
-            // For other fields, set the value as usual
             setTaskData({
                 ...taskData,
                 [event.target.name]: event.target.value,

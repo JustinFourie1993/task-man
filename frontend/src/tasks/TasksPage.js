@@ -1,11 +1,10 @@
-import appStyles from "../App.module.css";
-import styles from "../styles/TasksPage.module.css";
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Task from './Task';
-import { useCurrentUser } from '../contexts/CurrentUserContext';
 import { axiosReq } from '../api/axiosDefaults';
+import appStyles from "../App.module.css";
+import styles from "../styles/TasksPage.module.css";
 
 const debounce = (func, delay) => {
     let debounceTimer;
@@ -20,26 +19,27 @@ const debounce = (func, delay) => {
 const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState({ category: '', priority: '', state: '', overdue: '' });
-    const currentUser = useCurrentUser();
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
 
     const fetchTasks = useCallback(debounce(async () => {
         try {
-            let query = '/tasks/?ordering=due_date';
+            let query = `/tasks/?ordering=due_date&page=${page}`;
             if (searchTerm) {
                 query += `&search=${searchTerm}`;
             }
-            if (filter.category) {
-                query += `&category=${filter.category}`;
-            }
-
 
             const { data } = await axiosReq.get(query);
-            setTasks(data.results || []);
+            if (data.results.length === 0) {
+                setHasMore(false);
+            } else {
+                setTasks(prevTasks => [...prevTasks, ...data.results]);
+                setPage(prevPage => prevPage + 1);
+            }
         } catch (err) {
             console.log(err);
         }
-    }, 500), [searchTerm, filter]);
+    }, 500), [searchTerm, page]);
 
     useEffect(() => {
         fetchTasks();
@@ -47,18 +47,16 @@ const TasksPage = () => {
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-    };
-
-    const handleFilterChange = (event) => {
-        setFilter({ ...filter, [event.target.name]: event.target.value });
+        setTasks([]);
+        setPage(1);
+        setHasMore(true);
     };
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        
+        fetchTasks();
     };
 
-    
     const categories = ["All", "WORK", "PERSONAL", "HOME", "HEALTH", "FINANCE", "EDUCATION", "SHOPPING", "TRAVEL", "HOBBIES", "SOCIAL"];
 
     return (
@@ -75,25 +73,28 @@ const TasksPage = () => {
                         </InputGroup>
                         <Form.Group>
                             <Form.Label>Category</Form.Label>
-                            <Form.Control as="select" name="category" onChange={handleFilterChange}>
+                            <Form.Control as="select" name="category" onChange={handleSearchChange}>
                                 {categories.map(category => (
                                     <option key={category} value={category === "All" ? "" : category}>{category}</option>
                                 ))}
                             </Form.Control>
                         </Form.Group>
-                     
                     </Form>
                 </Col>
             </Row>
             <Row>
                 <Col md={12}>
-                    {tasks.length > 0 ? (
-                        tasks.map(task => (
+                    <InfiniteScroll
+                        dataLength={tasks.length}
+                        next={fetchTasks}
+                        hasMore={hasMore}
+                        loader={<h4>Loading...</h4>}
+                        endMessage={<p>You have seen all tasks.</p>}
+                    >
+                        {tasks.map(task => (
                             <Task key={task.id} {...task} taskPage={false} />
-                        ))
-                    ) : (
-                        <p>No tasks found.</p>
-                    )}
+                        ))}
+                    </InfiniteScroll>
                 </Col>
             </Row>
         </Container>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Container, Row, Col, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Task from './Task';
 import { axiosReq } from '../api/axiosDefaults';

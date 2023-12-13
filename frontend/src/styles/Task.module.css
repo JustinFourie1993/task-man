@@ -11,3 +11,15 @@
 }
 
 
+.taskTitle {
+    font-size: 14px;
+   
+}
+
+
+@media (max-width: 430px) {
+    .taskTitle {
+        font-size: 12px;
+        
+    }
+}

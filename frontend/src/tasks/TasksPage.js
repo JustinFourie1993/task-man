@@ -1,55 +1,60 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup, Spinner } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Task from './Task';
 import { axiosReq } from '../api/axiosDefaults';
-import appStyles from "../App.module.css";
 import styles from "../styles/TasksPage.module.css";
-
-const debounce = (func, delay) => {
-    let debounceTimer;
-    return function () {
-        const context = this;
-        const args = arguments;
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    };
-};
 
 const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [hasMore, setHasMore] = useState(true);
+    const [category, setCategory] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [searchTimeout, setSearchTimeout] = useState(null);
 
-    const fetchTasks = useCallback(debounce(async () => {
+    const fetchTasks = useCallback(async () => {
+        if (page === 1) setIsLoading(true);
         try {
             let query = `/tasks/?ordering=due_date&page=${page}`;
             if (searchTerm) {
                 query += `&search=${searchTerm}`;
             }
+            if (category) {
+                query += `&category=${category}`;
+            }
 
             const { data } = await axiosReq.get(query);
-            if (data.results.length === 0) {
-                setHasMore(false);
-            } else {
-                setTasks(prevTasks => [...prevTasks, ...data.results]);
-                setPage(prevPage => prevPage + 1);
-            }
+            setTasks(prev => page === 1 ? data.results : [...prev, ...data.results]);
+            setHasMore(data.next !== null);
         } catch (err) {
             console.log(err);
+        } finally {
+            if (page === 1) setIsLoading(false);
         }
-    }, 500), [searchTerm, page]);
+    }, [searchTerm, category, page]);
 
     useEffect(() => {
         fetchTasks();
     }, [fetchTasks]);
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-        setTasks([]);
+        const value = event.target.value;
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+        setSearchTimeout(setTimeout(() => {
+            setSearchTerm(value);
+            setPage(1);
+            setTasks([]);
+        }, 1000));
+    };
+
+    const handleCategoryChange = (event) => {
+        setCategory(event.target.value);
         setPage(1);
-        setHasMore(true);
+        setTasks([]);
     };
 
     const handleSearchSubmit = (event) => {
@@ -60,7 +65,7 @@ const TasksPage = () => {
     const categories = ["All", "WORK", "PERSONAL", "HOME", "HEALTH", "FINANCE", "EDUCATION", "SHOPPING", "TRAVEL", "HOBBIES", "SOCIAL"];
 
     return (
-        <Container>
+        <Container className={styles.TasksPage}>
             <Row className="my-4">
                 <Col md={12}>
                     <Form onSubmit={handleSearchSubmit}>
@@ -69,13 +74,11 @@ const TasksPage = () => {
                                 placeholder="Search for tasks"
                                 onChange={handleSearchChange}
                             />
-                            <Button type="submit" variant="outline-secondary">Search</Button>
                         </InputGroup>
-                        <Form.Group>
-                            <Form.Label>Category</Form.Label>
-                            <Form.Control as="select" name="category" onChange={handleSearchChange}>
-                                {categories.map(category => (
-                                    <option key={category} value={category === "All" ? "" : category}>{category}</option>
+                        <Form.Group controlId="categorySelect">
+                            <Form.Control as="select" value={category} onChange={handleCategoryChange}>
+                                {categories.map(cat => (
+                                    <option key={cat} value={cat === "All" ? "" : cat}>{cat}</option>
                                 ))}
                             </Form.Control>
                         </Form.Group>
@@ -84,17 +87,16 @@ const TasksPage = () => {
             </Row>
             <Row>
                 <Col md={12}>
+                    
                     <InfiniteScroll
                         dataLength={tasks.length}
-                        next={fetchTasks}
+                        next={() => setPage(prevPage => prevPage + 1)}
                         hasMore={hasMore}
-                        loader={<h4>Loading...</h4>}
-                        endMessage={<p>You have seen all tasks.</p>}
+                        loader={<div className="text-center">Loading...</div>}
                     >
-                        {tasks.map(task => (
-                            <Task key={task.id} {...task} taskPage={false} />
-                        ))}
+                        {tasks.map(task => <Task key={task.id} {...task} taskPage={false} />)}
                     </InfiniteScroll>
+                    {!isLoading && tasks.length === 0 && <p>No tasks found.</p>}
                 </Col>
             </Row>
         </Container>

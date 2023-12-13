@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Container, Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Task from './Task';
 import { axiosReq } from '../api/axiosDefaults';
 import styles from "../styles/TasksPage.module.css";
+import { useCurrentUser } from '../contexts/CurrentUserContext';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
@@ -13,6 +15,7 @@ const TasksPage = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [searchTimeout, setSearchTimeout] = useState(null);
+    const currentUser = useCurrentUser();
 
     const fetchTasks = useCallback(async () => {
         if (page === 1) setIsLoading(true);
@@ -63,6 +66,25 @@ const TasksPage = () => {
     };
 
     const categories = ["All", "WORK", "PERSONAL", "HOME", "HEALTH", "FINANCE", "EDUCATION", "SHOPPING", "TRAVEL", "HOBBIES", "SOCIAL"];
+
+    if (!currentUser) {
+        return (
+            <Container className={styles.TasksPage}>
+                <Row className="mt-5">
+                    <Col md={12} className="text-center">
+                        <h2>Please Log In</h2>
+                        <p>To view tasks, you need to log in.</p>
+                        <Link to="/signin">
+                            <Button variant="primary">Log In</Button>
+                        </Link>
+                        <p className="mt-3">
+                            Don't have an account? <Link to="/signup">Sign Up</Link>
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
 
     return (
         <Container className={styles.TasksPage}>

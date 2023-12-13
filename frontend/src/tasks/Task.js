@@ -53,7 +53,7 @@ const Task = (props) => {
         return diffDays;
     };
 
-    return is_owner ? (
+    return  (
         <Card className={styles.Task}>
             <Card.Body>
                 <Row>
@@ -74,11 +74,13 @@ const Task = (props) => {
                             </>
                         )}
                         <div className={styles.Comment}>
-                            <Link to={`/tasks/${id}`}>
-                                <Button className={btnStyles.Button}>
-                                    Leave a note
-                                </Button>
-                            </Link>
+                            {!taskPage && (
+                                <Link to={`/tasks/${id}`}>
+                                    <Button className={btnStyles.Button}>
+                                        View Task
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
                     </Col>
                     <Col xs={2} sm={1} className="text-right">
@@ -89,16 +91,7 @@ const Task = (props) => {
                 </Row>
             </Card.Body>
         </Card>
-    ) : (
-        <Card className={styles.Task}>
-            <Card.Body>
-                <Card.Title>Restricted Access</Card.Title>
-                <Card.Text>
-                    You do not have permission to view the details of this task.
-                </Card.Text>
-            </Card.Body>
-        </Card>
-    );
+    ) 
 };
 
 export default Task;

@@ -20,8 +20,12 @@ function TaskPage() {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                const { data } = await axiosReq.get(`/tasks/${id}`);
-                setTask(data); 
+                const [{ data: task }, { data: notes }] = await Promise.all([
+                    axiosReq.get(`/tasks/${id}`),
+                    axiosReq.get(`/notes/?task=${id}`),
+                ]);
+                setTask(task);
+                setNotes(notes);
             } catch (err) {
                 console.log(err);
             }
@@ -35,7 +39,7 @@ function TaskPage() {
             <Col className="py-2 p-0 p-lg-2" lg={8}>
                 {task && <Task {...task} setTasks={setTask} taskPage onTaskPage={true} />}
                 <Container className={appStyles.Content}>
-                    {currentUser && (
+                    {currentUser ? (
                         <NoteCreateForm
                             profile_id={currentUser.profile_id}
                             profileImage={profile_image}
@@ -43,9 +47,18 @@ function TaskPage() {
                             setTask={setTask}
                             setNotes={setNotes}
                         />
-                    )}
-                    
-                    {notes.results.length > 0 && "Comments"}
+                    ) : notes.results.legnth? (
+                        "Notes"
+                    ) : null}
+                    {notes.results.length ? (
+                        notes.results.map(note => (
+                            <p key={note.id}>
+                                {note.owner}: {note.content}
+                            </p>
+                        ))
+                    ) :  (
+                        <span>No notes yet</span>
+                    ) }
                 </Container>
             </Col>
         </Row>

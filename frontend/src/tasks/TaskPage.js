@@ -44,7 +44,8 @@ function TaskPage() {
 
     return (
         <Row className="h-100">
-            <Col className="py-2 p-0 p-lg-2" lg={8}>
+            
+            <Col  className="py-2 p-0 p-lg-2">
                 {task && <Task {...task} setTasks={setTask} taskPage onTaskPage={true} />}
                 <Container className={appStyles.Content}>
                     {currentUser ? (
@@ -55,18 +56,21 @@ function TaskPage() {
                             setTask={setTask}
                             onNoteCreate={handleNewNote}
                         />
-                    ) : notes.results.legnth? (
+                    ) : notes.results.length ? (
                         "Notes"
                     ) : null}
                     {notes.results.length ? (
                         notes.results.map(note => (
                             <Note key={note.id} {...note} setNotes={setNotes} />
                         ))
-                    ) :  (
-                        <span>No notes yet</span>
-                    ) }
+                    ) : (
+                        <span></span>
+                    )}
                 </Container>
             </Col>
+            
+            
+    
         </Row>
     );
 }

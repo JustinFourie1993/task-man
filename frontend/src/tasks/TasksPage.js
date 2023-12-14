@@ -116,7 +116,7 @@ const TasksPage = () => {
                         hasMore={hasMore}
                         loader={<div className="text-center">Loading...</div>}
                     >
-                        {tasks.map(task => <Task key={task.id} {...task} taskPage={false} />)}
+                        {tasks.map(task => <Task key={task.id} {...task} setTasks={setTasks} taskPage={false} />)}
                     </InfiniteScroll>
                     {!isLoading && tasks.length === 0 && <p>No tasks found.</p>}
                 </Col>

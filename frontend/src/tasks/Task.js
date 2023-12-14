@@ -16,10 +16,9 @@ const Task = (props) => {
 
     const handleDelete = async () => {
         try {
-            await axiosRes.delete(`/tasks/${id}/`);
-            if (isFromTaskPage) {
-                history.goBack(); 
-            }
+            await axiosRes.delete(`/tasks/${id}/`); 
+            history.goBack(); 
+            
         } catch (err) {
             console.log(err);
         }
@@ -83,11 +82,14 @@ const Task = (props) => {
                             )}
                         </div>
                     </Col>
-                    <Col xs={2} sm={1} className="text-right">
-                        <MoreDropdown 
-                        handleEdit={handleEdit} 
-                        handleDelete={handleDelete}/>
-                    </Col>
+                    {taskPage && is_owner && (
+                        <Col xs={2} sm={1} className="text-right">
+                            <MoreDropdown
+                                handleEdit={handleEdit}
+                                handleDelete={handleDelete}
+                            />
+                        </Col>
+                    )}
                 </Row>
             </Card.Body>
         </Card>

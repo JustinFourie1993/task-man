@@ -61,7 +61,7 @@ const TaskCreateForm = () => {
 
     return (
         <Row className={styles.Row}>
-            <Col className="my-auto py-2 p-md-2" md={6}>
+            <Col className="my-auto py-2 p-md-2" >
                 <Container
                     className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
                 >

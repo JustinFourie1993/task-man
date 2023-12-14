@@ -9,6 +9,7 @@ import appStyles from "../App.module.css";
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { axiosReq } from '../api/axiosDefaults';
 import Task from './Task';
+import Note from '../notes/Note';
 
 function TaskPage() {
     const { id } = useParams();
@@ -59,9 +60,7 @@ function TaskPage() {
                     ) : null}
                     {notes.results.length ? (
                         notes.results.map(note => (
-                            <p key={note.id}>
-                                {note.content}
-                            </p>
+                            <Note key={note.id} {...note} setNotes={setNotes} />
                         ))
                     ) :  (
                         <span>No notes yet</span>

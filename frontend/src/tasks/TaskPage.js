@@ -12,7 +12,7 @@ import Task from './Task';
 
 function TaskPage() {
     const { id } = useParams();
-    const [task, setTask] = useState(null); 
+    const [task, setTask] = useState({ results: [] }); 
     const currentUser = useCurrentUser();
     const profile_image = currentUser?.profile_image;
     const [notes, setNotes] = useState({ results: [] });
@@ -34,6 +34,13 @@ function TaskPage() {
         fetchTask();
     }, [id]);
 
+    const handleNewNote = (newNote) => {
+        setNotes(prevNotes => ({
+            ...prevNotes,
+            results: [newNote, ...prevNotes.results],
+        }));
+    };
+
     return (
         <Row className="h-100">
             <Col className="py-2 p-0 p-lg-2" lg={8}>
@@ -43,9 +50,9 @@ function TaskPage() {
                         <NoteCreateForm
                             profile_id={currentUser.profile_id}
                             profileImage={profile_image}
-                            post={id}
+                            task={id}
                             setTask={setTask}
-                            setNotes={setNotes}
+                            onNoteCreate={handleNewNote}
                         />
                     ) : notes.results.legnth? (
                         "Notes"
@@ -53,7 +60,7 @@ function TaskPage() {
                     {notes.results.length ? (
                         notes.results.map(note => (
                             <p key={note.id}>
-                                {note.owner}: {note.content}
+                                {note.content}
                             </p>
                         ))
                     ) :  (

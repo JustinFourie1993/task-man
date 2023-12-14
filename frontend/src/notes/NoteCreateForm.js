@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-
-import styles from "../styles/NoteCreateEditForm.module.css";
 import Avatar from "../components/Avatar";
 import { axiosRes } from "../api/axiosDefaults";
+import styles from "../styles/NoteCreateEditForm.module.css";
 
-function NoteCreateForm(props) {
-    const { task, setTask, setNotes, profileImage, profile_id } = props;
+function NoteCreateForm({ task, onNoteCreate, profileImage, profile_id }) {
     const [content, setContent] = useState("");
 
     const handleChange = (event) => {
@@ -19,24 +16,12 @@ function NoteCreateForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const { data } = await axiosRes.post("/notes/", {
-                content,
-                task,
-            });
-            setNotes((prevNotes) => ({
-                ...prevNotes,
-                results: [data, ...prevNotes.results],
-            }));
-            setTask((prevTask) => ({
-                results: [
-                    {
-                        ...prevTask.results[0],
-                    },
-                ],
-            }));
+            const { data } = await axiosRes.post("/notes/", { content, task });
+            onNoteCreate(data);
             setContent("");
         } catch (err) {
             console.log(err);
+            
         }
     };
 
@@ -49,7 +34,7 @@ function NoteCreateForm(props) {
                     </Link>
                     <Form.Control
                         className={styles.Form}
-                        placeholder="my note..."
+                        placeholder="Write a note..."
                         as="textarea"
                         value={content}
                         onChange={handleChange}

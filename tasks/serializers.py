@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     is_owner = serializers.SerializerMethodField()
     owners = serializers.SlugRelatedField(
         many=True,
@@ -16,11 +18,6 @@ class TaskSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
-    def validate_file(self, value):
-        if value.size > 2 * 1024 * 1024:
-            raise serializers.ValidationError(
-                "File size too large. The maximum file size is 2MB.")
-        return value
 
     def create(self, validated_data):
         owners_data = validated_data.pop('owners')
@@ -42,8 +39,8 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'owners', 'is_owner',
             'created_at', 'updated_at',
-            'title', 'content', 'task_file', 'due_date', 'overdue', 'priority',
-            'category', 'state'
+            'title', 'content', 'due_date', 'overdue', 'priority',
+            'category', 'state', 'profile_id', 'profile_image'
         ]
         read_only_fields = ['created_at', 'updated_at',
                             'owner',]

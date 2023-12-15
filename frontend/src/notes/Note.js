@@ -19,7 +19,7 @@ const Note = ({ owner, updated_at, content, id, setNotes }) => {
                 results: prevNotes.results.filter(note => note.id !== id),
             }));
         } catch (err) {
-            console.log(err);
+            // console.log(err);
     
         }
     };

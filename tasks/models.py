@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 
 class Task(models.Model):
@@ -9,7 +10,6 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255, blank=True)
     content = models.TextField(blank=True)
-    task_file = models.FileField(upload_to='task_files/', null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
     overdue = models.BooleanField(default=False)
     PRIORITY_CHOICES = [
@@ -40,7 +40,7 @@ class Task(models.Model):
         ('IN_PROGRESS', 'In Progress'),
         ('COMPLETED', 'Completed'),
         ('CLOSED', 'Closed'),
-        ]
+    ]
     state = models.CharField(
         max_length=20, choices=STATE_CHOICES, default='OPEN')
 

@@ -32,7 +32,7 @@ const TasksPage = () => {
             setTasks(prev => page === 1 ? data.results : [...prev, ...data.results]);
             setHasMore(data.next !== null);
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         } finally {
             if (page === 1) setIsLoading(false);
         }

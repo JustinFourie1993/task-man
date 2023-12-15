@@ -30,7 +30,7 @@ const TaskEditForm = () => {
 
                 setTaskData({ title, category, content, priority, due_date });
             } catch (err) {
-                console.log(err);
+                // console.log(err);
             }
         };
 
@@ -68,7 +68,7 @@ const TaskEditForm = () => {
             await axiosReq.put(`/tasks/${id}/`, formData);
             history.goBack();
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             if (err.response?.status !== 401) {
                 setErrors(err.response?.data);
             }

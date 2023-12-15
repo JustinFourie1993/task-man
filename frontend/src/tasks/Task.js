@@ -20,7 +20,7 @@ const Task = (props) => {
             history.goBack(); 
             
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     };
 
@@ -35,10 +35,7 @@ const Task = (props) => {
         priority,
         state,
         title,
-        profile_id,
-        profile_image,
         taskPage,
-        isFromTaskPage,
     } = props;
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner || owners?.includes(currentUser?.username);
@@ -56,7 +53,7 @@ const Task = (props) => {
         <Card className={styles.Task}>
             <Card.Body>
                 <Row>
-                    <Col xs={10} sm={11}>
+                    <Col>
                         <Card.Title className={styles.taskTitle}><h4>{title}</h4></Card.Title>
                         <Card.Text>{content}</Card.Text>
                         {is_owner && taskPage && (

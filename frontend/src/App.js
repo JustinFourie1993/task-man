@@ -10,6 +10,7 @@ import TaskCreateForm from './tasks/TaskCreateForm';
 import TaskPage from './tasks/TaskPage';
 import TasksPage from './tasks/TasksPage';
 import TaskEditForm from './tasks/TaskEditForm';
+import NotFound from './components/NotFound';
 
 
 
@@ -26,7 +27,7 @@ function App() {
                             <Route exact path="/tasks/create" render={() => <TaskCreateForm />} />
                             <Route exact path="/tasks/:id/edit" render={() => <TaskEditForm />} />
                             <Route exact path="/tasks/:id" render={() => <TaskPage />} />
-                            <Route render={() => <p>Page not found!</p>} />
+                            <Route render={() => <NotFound />} />
                         </Switch>
                     </Container>
                 </div>   

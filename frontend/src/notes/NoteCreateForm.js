@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { axiosRes } from "../api/axiosDefaults";
@@ -19,7 +18,7 @@ function NoteCreateForm({ task, onNoteCreate, profileImage, profile_id }) {
             onNoteCreate(data);
             setContent("");
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             
         }
     };

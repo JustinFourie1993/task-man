@@ -28,7 +28,7 @@ function TaskPage() {
                 setTask(task);
                 setNotes(notes);
             } catch (err) {
-                console.log(err);
+                // console.log(err);
             }
         };
 

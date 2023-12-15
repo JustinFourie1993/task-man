@@ -1,39 +1,61 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Task Manager Application
 
-Welcome,
+Task Manager is a comprehensive web application designed to help users efficiently manage their tasks. It provides an intuitive interface for users to create, view, edit, and delete tasks, enhancing personal productivity and organization.
 
-This is the Code Institute student template for Codeanywhere. If you are using Gitpod then you need [this template](https://github.com/Code-Institute-Org/gitpod-full-template) instead.  We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+## Features
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Codeanywhere and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **August 30th, 2023**
+### Home Page
 
-## Codeanywhere Reminders
+- A welcoming homepage that presents an overview of the application and its features.
+- A user-friendly navigation bar for easy access to different sections of the app.
 
-To run a frontend (HTML, CSS, Javascript only) application in Codeanywhere, in the terminal, type:
+![](media/readme_images/home-page.png)
 
-`python3 -m http.server`
+### Task Creation and Management
 
-A button should appear to click: _Open Preview_ or _Open Browser_.
+- Users can easily create new tasks, specifying details such as title, description, and due date.
+- Tasks are displayed in a clear and organized manner, allowing users to quickly scan their to-dos.
 
-To run a frontend (HTML, CSS, Javascript only) application in Codeanywhere with no-cache, you can use this alias for `python3 -m http.server`.
+### Real-time Updates
 
-`http_server`
+- The system updates tasks in real-time, ensuring users always have the most current information.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
 
-A button should appear to click: _Open Preview_ or _Open Browser_.
+### Responsive Design
 
-In Codeanywhere you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+- The application is fully responsive, providing an optimal experience on both desktop and mobile devices.
 
-To log into the Heroku toolbelt CLI:
+![](media/readme_images/responsive.png)
 
-1. Log in to your Heroku account and go to _Account Settings_ in the menu under your avatar.
-2. Scroll down to the _API Key_ and click _Reveal_
-3. Copy the key
-4. In Codeanywhere, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+## Testing
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+### Manual Testing
 
----
+- **User Registration**: Tested the functionality of user account creation.
+- **User Login**: Confirmed the login process with different user accounts.
+- **Task Creation**: Validated the creation of tasks, ensuring they appear correctly for the user.
+- **Task Editing**: Checked the ability to edit task details and verified changes are saved.
+- **Task Deletion**: Ensured that tasks can be deleted and no longer appear in the user's list.
+- **Responsive Design**: Tested the application on various devices to ensure a consistent and responsive layout.
+- **Search Functionality**: Ensured that the task search feature works correctly, allowing users to find tasks based on keywords.
+- **Data Persistence**: Verified that all task data remains persistent upon logging out and back into the application.
+- **Error Handling**: Tested how the application handles incorrect inputs or invalid actions in task creation and editing.
 
-Happy coding!
+
+### Project Objectives
+
+- **Task Management Efficiency**: Aimed to create a user-friendly tool for managing daily tasks, enhancing personal productivity.
+- **User-Centric Design**: Focused on a design that is intuitive and accessible for all users.
+
+
+## Deployment
+
+The application was deployed on Heroku following these steps:
+
+- Created a Heroku app and configured necessary add-ons.
+- Set environment variables such as database configurations and secret keys.
+- Linked the app to a GitHub repository for continuous deployment.
+- Deployed the main branch to Heroku for live access.
+
+Live link: [Task Manager App](https://task-man-cec7dd2494da.herokuapp.com/)
+

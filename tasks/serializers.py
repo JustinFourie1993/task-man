@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Task
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -18,6 +19,21 @@ class TaskSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
+    def validate_title(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Title cannot be blank.")
+        return value
+
+    def validate_content(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Content cannot be blank.")
+        return value
+
+    def validate_due_date(self, value):
+        if value and value < timezone.now():
+            raise serializers.ValidationError(
+                "Due date cannot be in the past.")
+        return value
 
     def create(self, validated_data):
         owners_data = validated_data.pop('owners')
@@ -42,5 +58,4 @@ class TaskSerializer(serializers.ModelSerializer):
             'title', 'content', 'due_date', 'overdue', 'priority',
             'category', 'state', 'profile_id', 'profile_image'
         ]
-        read_only_fields = ['created_at', 'updated_at',
-                            'owner',]
+        read_only_fields = ['created_at', 'updated_at', 'owner', 'overdue']

@@ -40,6 +40,17 @@ const TaskCreateForm = () => {
             isValid = false;
         }
 
+        if (due_date) {
+            const selectedDate = new Date(due_date);
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);  // Reset time part to compare only dates
+
+            if (selectedDate < currentDate) {
+                formErrors.due_date = "Due date cannot be in the past";
+                isValid = false;
+            }
+        }
+
         setErrors(formErrors);
         return isValid;
     };
@@ -95,7 +106,16 @@ const TaskCreateForm = () => {
                                 value={category}
                                 onChange={handleChange}>
                                 <option value="">Choose...</option>
-                                {/* Category options */}
+                                <option value="WORK">Work</option>
+                                <option value="PERSONAL">Personal</option>
+                                <option value="HOME">Home</option>
+                                <option value="HEALTH">Health</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="EDUCATION">Education</option>
+                                <option value="SHOPPING">Shopping</option>
+                                <option value="TRAVEL">Travel</option>
+                                <option value="HOBBIES">Hobbies</option>
+                                <option value="SOCIAL">Social</option>
                             </Form.Control>
                             {errors.category && <div className="invalid-feedback">{errors.category}</div>}
                         </Form.Group>
@@ -122,7 +142,9 @@ const TaskCreateForm = () => {
                                 value={priority}
                                 onChange={handleChange}>
                                 <option value="">Select Priority</option>
-                                {/* Priority options */}
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="HIGH">High</option>
                             </Form.Control>
                             {errors.priority && <div className="invalid-feedback">{errors.priority}</div>}
                         </Form.Group>
@@ -140,7 +162,7 @@ const TaskCreateForm = () => {
                         </Form.Group>
 
                         <div className={btnStyles.centerButton}>
-                            <Button className={btnStyles.Button} variant="secondary" onClick={() => history.goBack()} disabled={isSubmitting}>
+                            <Button variant="secondary" onClick={() => history.goBack()} disabled={isSubmitting}>
                                 Cancel
                             </Button>
                             <Button type="submit" className={btnStyles.Button} disabled={isSubmitting}>

@@ -26,11 +26,28 @@ const TaskEditForm = () => {
         const handleMount = async () => {
             try {
                 const { data } = await axiosReq.get(`/tasks/${id}/`);
-                const { title, category, content, priority, due_date, } = data;
+                let formattedDueDate = '';
 
-                setTaskData({ title, category, content, priority, due_date });
+                if (data.due_date) {
+                    // Assuming 'data.due_date' is in the format "DD MMM YYYY"
+                    const dateParts = data.due_date.split(' ');
+                    const day = dateParts[0];
+                    const month = dateParts[1];
+                    const year = dateParts[2];
+
+                    // Convert month from short name to number (e.g., "Feb" to "02")
+                    const months = {
+                        Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+                        Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12'
+                    };
+                    const monthNumber = months[month];
+
+                    formattedDueDate = `${year}-${monthNumber}-${day}`;
+                }
+
+                setTaskData({ ...data, due_date: formattedDueDate });
             } catch (err) {
-                // console.log(err);
+                console.error(err);
             }
         };
 
@@ -39,21 +56,13 @@ const TaskEditForm = () => {
 
 
     const handleChange = (event) => {
-        if (event.target.name === 'due_date' && event.target.value) {
-            const formattedDate = new Date(event.target.value).toISOString();
-            setTaskData({
-                ...taskData,
-                [event.target.name]: formattedDate,
-            });
-        } else {
-            setTaskData({
-                ...taskData,
-                [event.target.name]: event.target.value,
-            });
-        }
+        const { name, value } = event.target;
+
+        setTaskData({
+            ...taskData,
+            [name]: value,
+        });
     };
-
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -62,7 +71,12 @@ const TaskEditForm = () => {
         formData.append('category', category);
         formData.append('content', content);
         formData.append('priority', priority);
-        formData.append('due_date', due_date);
+        
+        // Format due_date in ISO 8601 format before appending
+        if (due_date) {
+            const isoFormattedDate = new Date(due_date).toISOString();
+            formData.append('due_date', isoFormattedDate);
+        } 
 
         try {
             await axiosReq.put(`/tasks/${id}/`, formData);
@@ -156,7 +170,7 @@ const TaskEditForm = () => {
                                 <option value="HIGH">High</option>
                             </Form.Control>
                         </Form.Group>
-                        {errors?.priority?.map((message, idx) => (
+                        {errors?.priority?.map((message, idx) => ( 
                             <Alert variant="warning" key={idx}>
                                 {message}
                             </Alert>

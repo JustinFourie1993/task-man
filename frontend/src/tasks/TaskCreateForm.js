@@ -16,7 +16,7 @@ const TaskCreateForm = () => {
     });
 
     const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    
     const { title, category, content, priority, due_date } = taskData;
     const history = useHistory();
 
@@ -27,45 +27,22 @@ const TaskCreateForm = () => {
         });
     };
 
-    const validateForm = () => {
-        let isValid = true;
-        let formErrors = {};
-
-        if (!title.trim()) {
-            formErrors.title = "Title is required";
-            isValid = false;
-        }
-        if (!content.trim()) {
-            formErrors.content = "Content is required";
-            isValid = false;
-        }
-
-        if (due_date) {
-            const selectedDate = new Date(due_date);
-            const currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0);  // Reset time part to compare only dates
-
-            if (selectedDate < currentDate) {
-                formErrors.due_date = "Due date cannot be in the past";
-                isValid = false;
-            }
-        }
-
-        setErrors(formErrors);
-        return isValid;
-    };
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!validateForm()) return;
-
-        setIsSubmitting(true);
+        
         const formData = new FormData();
         formData.append('title', title.trim());
         formData.append('category', category);
         formData.append('content', content.trim());
         formData.append('priority', priority);
-        formData.append('due_date', due_date);
+
+        // Format due_date in ISO 8601 format before appending
+        if (due_date) {
+            const isoFormattedDate = new Date(due_date).toISOString();
+            formData.append('due_date', isoFormattedDate);
+        } 
 
         try {
             const { data } = await axiosReq.post("/tasks/", formData);
@@ -74,9 +51,7 @@ const TaskCreateForm = () => {
             if (err.response?.status !== 401) {
                 setErrors(err.response?.data);
             }
-        } finally {
-            setIsSubmitting(false);
-        }
+        } 
     };
 
     return (
@@ -88,20 +63,23 @@ const TaskCreateForm = () => {
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Title</Form.Label>
                             <Form.Control
-                                className={`${styles.Input} ${errors.title ? 'is-invalid' : ''}`}
+                                className={styles.Input}
                                 type="text"
                                 name="title"
                                 value={title}
-                                onChange={handleChange}
-                            />
-                            {errors.title && <div className="invalid-feedback">{errors.title}</div>}
+                                onChange={handleChange} />
                         </Form.Group>
+                        {errors?.title?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Category</Form.Label>
                             <Form.Control
                                 as="select"
-                                className={`${styles.Input} ${errors.category ? 'is-invalid' : ''}`}
+                                className={styles.Input}
                                 name="category"
                                 value={category}
                                 onChange={handleChange}>
@@ -117,27 +95,35 @@ const TaskCreateForm = () => {
                                 <option value="HOBBIES">Hobbies</option>
                                 <option value="SOCIAL">Social</option>
                             </Form.Control>
-                            {errors.category && <div className="invalid-feedback">{errors.category}</div>}
                         </Form.Group>
+                        {errors?.category?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Content</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
-                                className={`${styles.Input} ${errors.content ? 'is-invalid' : ''}`}
+                                className={styles.Input}
                                 name="content"
                                 value={content}
-                                onChange={handleChange}
-                            />
-                            {errors.content && <div className="invalid-feedback">{errors.content}</div>}
+                                onChange={handleChange} />
                         </Form.Group>
+                        {errors?.content?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
+
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Priority</Form.Label>
                             <Form.Control
                                 as="select"
-                                className={`${styles.Input} ${errors.priority ? 'is-invalid' : ''}`}
+                                className={styles.Input}
                                 name="priority"
                                 value={priority}
                                 onChange={handleChange}>
@@ -146,27 +132,37 @@ const TaskCreateForm = () => {
                                 <option value="MEDIUM">Medium</option>
                                 <option value="HIGH">High</option>
                             </Form.Control>
-                            {errors.priority && <div className="invalid-feedback">{errors.priority}</div>}
                         </Form.Group>
+                        {errors?.priority?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Due Date</Form.Label>
                             <Form.Control
                                 type="date"
-                                className={`${styles.Input} ${errors.due_date ? 'is-invalid' : ''}`}
+                                className={styles.Input}
                                 name="due_date"
                                 value={due_date}
-                                onChange={handleChange}
-                            />
-                            {errors.due_date && <div className="invalid-feedback">{errors.due_date}</div>}
+                                onChange={handleChange} />
                         </Form.Group>
+                        {errors?.due_date?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
 
                         <div className={btnStyles.centerButton}>
-                            <Button variant="secondary" onClick={() => history.goBack()} disabled={isSubmitting}>
+                            <Button className={`${btnStyles.Button} ${btnStyles.wide}`}
+                                onClick={() => history.goBack()}>
                                 Cancel
                             </Button>
-                            <Button type="submit" className={btnStyles.Button} disabled={isSubmitting}>
-                                {isSubmitting ? <Spinner as="span" animation="border" size="sm" /> : 'Create Task'}
+                            <Button className=
+                                {`${btnStyles.Button} ${btnStyles.wide}`} type="submit"
+                            >
+                                Create Task
                             </Button>
                         </div>
                     </Form>

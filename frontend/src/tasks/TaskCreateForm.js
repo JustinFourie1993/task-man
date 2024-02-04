@@ -16,7 +16,7 @@ const TaskCreateForm = () => {
     });
 
     const [errors, setErrors] = useState({});
-    
+    const [feedbackMessage, setFeedbackMessage] = useState({ type: "", message: "" });
     const { title, category, content, priority, due_date } = taskData;
     const history = useHistory();
 
@@ -27,11 +27,9 @@ const TaskCreateForm = () => {
         });
     };
 
-    
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         const formData = new FormData();
         formData.append('title', title.trim());
         formData.append('category', category);
@@ -42,16 +40,20 @@ const TaskCreateForm = () => {
         if (due_date) {
             const isoFormattedDate = new Date(due_date).toISOString();
             formData.append('due_date', isoFormattedDate);
-        } 
+        }
 
         try {
             const { data } = await axiosReq.post("/tasks/", formData);
-            history.push(`/tasks/${data.id}`);
+            setFeedbackMessage({ type: "success", message: "Task created successfully!" });
+            setTimeout(() => {
+                history.push(`/tasks/${data.id}`);
+            }, 2000);
         } catch (err) {
             if (err.response?.status !== 401) {
                 setErrors(err.response?.data);
+                setFeedbackMessage({ type: "danger", message: "Failed to create task. Please try again." });
             }
-        } 
+        }
     };
 
     return (
@@ -59,6 +61,7 @@ const TaskCreateForm = () => {
             <Col className="my-auto py-2 p-md-2">
                 <Container className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}>
                     <h1 className={styles.Header}>Create Task</h1>
+                    {feedbackMessage.message && <Alert variant={feedbackMessage.type}>{feedbackMessage.message}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Title</Form.Label>
@@ -67,13 +70,12 @@ const TaskCreateForm = () => {
                                 type="text"
                                 name="title"
                                 value={title}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
+                            {errors?.title?.map((message, idx) => (
+                                <Alert key={idx} variant="warning">{message}</Alert>
+                            ))}
                         </Form.Group>
-                        {errors?.title?.map((message, idx) => (
-                            <Alert variant="warning" key={idx}>
-                                {message}
-                            </Alert>
-                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Category</Form.Label>
@@ -95,12 +97,10 @@ const TaskCreateForm = () => {
                                 <option value="HOBBIES">Hobbies</option>
                                 <option value="SOCIAL">Social</option>
                             </Form.Control>
+                            {errors?.category?.map((message, idx) => (
+                                <Alert key={idx} variant="warning">{message}</Alert>
+                            ))}
                         </Form.Group>
-                        {errors?.category?.map((message, idx) => (
-                            <Alert variant="warning" key={idx}>
-                                {message}
-                            </Alert>
-                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Content</Form.Label>
@@ -110,14 +110,12 @@ const TaskCreateForm = () => {
                                 className={styles.Input}
                                 name="content"
                                 value={content}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
+                            {errors?.content?.map((message, idx) => (
+                                <Alert key={idx} variant="warning">{message}</Alert>
+                            ))}
                         </Form.Group>
-                        {errors?.content?.map((message, idx) => (
-                            <Alert variant="warning" key={idx}>
-                                {message}
-                            </Alert>
-                        ))}
-
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Priority</Form.Label>
@@ -132,12 +130,10 @@ const TaskCreateForm = () => {
                                 <option value="MEDIUM">Medium</option>
                                 <option value="HIGH">High</option>
                             </Form.Control>
+                            {errors?.priority?.map((message, idx) => (
+                                <Alert key={idx} variant="warning">{message}</Alert>
+                            ))}
                         </Form.Group>
-                        {errors?.priority?.map((message, idx) => (
-                            <Alert variant="warning" key={idx}>
-                                {message}
-                            </Alert>
-                        ))}
 
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Due Date</Form.Label>
@@ -146,24 +142,16 @@ const TaskCreateForm = () => {
                                 className={styles.Input}
                                 name="due_date"
                                 value={due_date}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
+                            {errors?.due_date?.map((message, idx) => (
+                                <Alert key={idx} variant="warning">{message}</Alert>
+                            ))}
                         </Form.Group>
-                        {errors?.due_date?.map((message, idx) => (
-                            <Alert variant="warning" key={idx}>
-                                {message}
-                            </Alert>
-                        ))}
 
                         <div className={btnStyles.centerButton}>
-                            <Button className={`${btnStyles.Button} ${btnStyles.wide}`}
-                                onClick={() => history.goBack()}>
-                                Cancel
-                            </Button>
-                            <Button className=
-                                {`${btnStyles.Button} ${btnStyles.wide}`} type="submit"
-                            >
-                                Create Task
-                            </Button>
+                            <Button variant="secondary" onClick={() => history.goBack()}>Cancel</Button>
+                            <Button type="submit" className={btnStyles.Button}>Create Task</Button>
                         </div>
                     </Form>
                 </Container>

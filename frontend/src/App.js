@@ -15,9 +15,12 @@ import NotFound from './components/NotFound';
 
 
 
+
 function App() {
     return (
+                
                 <div className={styles.App}>
+                
                     <NavBar />
                     <Container className={styles.Main}>
                         <Switch>
@@ -30,7 +33,10 @@ function App() {
                             <Route render={() => <NotFound />} />
                         </Switch>
                     </Container>
-                </div>   
+                    
+                  
+                </div> 
+                
     );
 }
 

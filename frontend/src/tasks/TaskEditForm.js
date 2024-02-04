@@ -80,11 +80,15 @@ const TaskEditForm = () => {
 
         try {
             await axiosReq.put(`/tasks/${id}/`, formData);
-            history.goBack();
+            setFeedbackMessage({ type: "success", message: "Task edited successfully!" });
+            setTimeout(() => {
+                history.goBack();
+            }, 2000);
         } catch (err) {
             // console.log(err);
             if (err.response?.status !== 401) {
                 setErrors(err.response?.data);
+                setFeedbackMessage({ type: "danger", message: "Failed to edit task. Please try again." });
             }
         }
     };

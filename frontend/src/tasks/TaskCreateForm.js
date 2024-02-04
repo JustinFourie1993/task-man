@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Col, Row, Container, Spinner, Alert } from 'react-bootstrap';
+import { Form, Button, Col, Row, Container, Alert } from 'react-bootstrap';
 import appStyles from "../App.module.css";
 import styles from '../styles/SignForms.module.css';
 import btnStyles from "../styles/Button.module.css";

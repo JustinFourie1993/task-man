@@ -44,7 +44,7 @@ const TaskCreateForm = () => {
 
         try {
             const { data } = await axiosReq.post("/tasks/", formData);
-            setFeedbackMessage({ type: "success", message: "Task created successfully!" });
+            setFeedbackMessage({ type: "success", message: "Task created" });
             setTimeout(() => {
                 history.push(`/tasks/${data.id}`);
             }, 2000);

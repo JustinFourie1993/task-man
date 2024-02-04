@@ -12,6 +12,7 @@ import Task from './Task';
 import Note from '../notes/Note';
 
 function TaskPage() {
+    
     const { id } = useParams();
     const [task, setTask] = useState({ results: [] }); 
     const currentUser = useCurrentUser();

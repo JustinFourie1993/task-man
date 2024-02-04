@@ -18,6 +18,7 @@ const TaskEditForm = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const [feedbackMessage, setFeedbackMessage] = useState({ type: "", message: "" });
     const { title, category, content, priority, due_date } = taskData;
     const history = useHistory();
     const {id} = useParams()
@@ -80,7 +81,7 @@ const TaskEditForm = () => {
 
         try {
             await axiosReq.put(`/tasks/${id}/`, formData);
-            setFeedbackMessage({ type: "success", message: "Task edited successfully!" });
+            setFeedbackMessage({ type: "success", message: "Task edited" });
             setTimeout(() => {
                 history.goBack();
             }, 2000);
@@ -100,6 +101,7 @@ const TaskEditForm = () => {
                     className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
                 >
                     <h1 className={styles.Header}>Edit Task</h1>
+                    {feedbackMessage.message && <Alert variant={feedbackMessage.type}>{feedbackMessage.message}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className={styles.FormGroup}>
                             <Form.Label>Title</Form.Label>

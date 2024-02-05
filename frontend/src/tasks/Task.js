@@ -74,6 +74,7 @@ const Task = (props) => {
                                 )}
                                 <strong>Priority:</strong> {priority} <br />
                                 <strong>Status:</strong> {state} <br />
+                                
                             </>
                         )}
                         <div className={styles.Comment}>

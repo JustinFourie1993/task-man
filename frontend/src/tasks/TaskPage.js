@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Col from "react-bootstrap/Col";
+import { Button } from 'react-bootstrap';
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import NoteCreateForm from "../notes/NoteCreateForm";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
-
+import styles from "../styles/Task.module.css";
+import btnStyles from "../styles/Button.module.css";
 import appStyles from "../App.module.css";
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { axiosReq } from '../api/axiosDefaults';
@@ -13,6 +16,7 @@ import Note from '../notes/Note';
 
 function TaskPage() {
     
+    const history = useHistory()
     const { id } = useParams();
     const [task, setTask] = useState({ results: [] }); 
     const currentUser = useCurrentUser();
@@ -47,7 +51,14 @@ function TaskPage() {
         <Row className="h-100">
             
             <Col  className="py-2 p-0 p-lg-2">
+                <div className={styles.Back}>
+                    <Button className={`${btnStyles.Button} ${btnStyles.wide}`}
+                        onClick={() => history.goBack()}>
+                        Go Back
+                    </Button>
+                </div>
                 {task && <Task {...task} setTasks={setTask} taskPage onTaskPage={true} />}
+                
                 <Container className={appStyles.Content}>
                     {currentUser ? (
                         <NoteCreateForm

@@ -4,6 +4,7 @@ import logo from '../assets/logo.jpg';
 import styles from '../styles/NavBar.module.css';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
+
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
 
 import axios from 'axios';
@@ -48,11 +49,24 @@ const NavBar = () => {
                 activeClassName={styles.Active}>
                 <i className="fa-solid fa-pen-to-square">
                 </i>Sign Up</NavLink> </>;
+    
+    // Logged status indicator
+    const loggedStatusIndicator = currentUser ? (
+        <div >
+            <i className="fa-solid fa-user-check"></i> Logged In
+        </div>
+    ) : (
+        <div>
+                   <i className="fa-solid fa-user-slash"></i> Logged Out         
+        </div>
+    );
+        
     return (
         <Container>
             <Navbar expanded={expanded} className={styles.NavBar} expand="md" fixed="top">
                 <NavLink to="/">
                     <Navbar.Brand><img src={logo} alt="logo" height="45" /></Navbar.Brand></NavLink>
+                    {loggedStatusIndicator}
                 <Navbar.Toggle ref={ref} onClick={() => setExpanded(!expanded)} className={styles.dropdown} aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">

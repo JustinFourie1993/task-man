@@ -31,21 +31,85 @@ Task Manager is a comprehensive web application designed to help users efficient
 
 ### Manual Testing
 
-- **User Registration**: Tested the functionality of user account creation.
-- **User Login**: Confirmed the login process with different user accounts.
-- **Task Creation**: Validated the creation of tasks, ensuring they appear correctly for the user.
-- **Task Editing**: Checked the ability to edit task details and verified changes are saved.
-- **Task Deletion**: Ensured that tasks can be deleted and no longer appear in the user's list.
-- **Responsive Design**: Tested the application on various devices to ensure a consistent and responsive layout.
-- **Search Functionality**: Ensured that the task search feature works correctly, allowing users to find tasks based on keywords.
-- **Data Persistence**: Verified that all task data remains persistent upon logging out and back into the application.
-- **Error Handling**: Tested how the application handles incorrect inputs or invalid actions in task creation and editing.
+The Task Manager Application has undergone extensive manual testing to ensure its functionalities meet the expected standards. The tests are categorized into Frontend and API testing.
+
+### Frontend Testing
+
+#### User Authentication
+
+1. **User Registration**
+   - **Procedure**: Navigate to the Sign Up page, fill in the required fields, and submit the form.
+   - **Expected Result**: A new user account is created, and the user is redirected to the login page with a success message.
+
+2. **User Login**
+   - **Procedure**: Navigate to the Sign In page, enter valid credentials, and submit the form.
+   - **Expected Result**: The user is authenticated and redirected to the homepage with a welcome message.
+
+#### Task Management
+
+3. **Task Creation**
+   - **Procedure**: Click on 'Add Task', fill in the task details in the form, and submit.
+   - **Expected Result**: A new task is added to the list, visible on the homepage.
+
+4. **Task Editing**
+   - **Procedure**: Click the edit icon on a task, modify the details, and submit the form.
+   - **Expected Result**: The selected task is updated with the new details.
+
+5. **Task Deletion**
+   - **Procedure**: Click the delete icon on a task.
+   - **Expected Result**: The selected task is removed from the list.
+
+#### Navigation and Responsiveness
+
+6. **Navigation**
+   - **Procedure**: Use the navigation bar to move between different pages.
+   - **Expected Result**: Navigation is smooth, and the correct page is displayed each time.
+
+7. **Responsive Design**
+   - **Procedure**: Access the application on different devices and browsers.
+   - **Expected Result**: The application layout adjusts appropriately to the screen size and browser.
+
+### API Testing
+
+#### Authentication Endpoints
+
+1. **Register Endpoint**
+   - **Procedure**: Send a POST request to the `/dj-rest-auth/registration/` endpoint with a new user's details.
+   - **Expected Result**: The API returns a 201 status code and the user details.
+
+2. **Login Endpoint**
+   - **Procedure**: Send a POST request to the `/dj-rest-auth/login/` endpoint with a user's credentials.
+   - **Expected Result**: The API returns a 200 status code, user details, and an authentication token.
+
+#### Task Endpoints
+
+3. **Create Task Endpoint**
+   - **Procedure**: Send a POST request to the `/tasks/` endpoint with the task details and a valid token.
+   - **Expected Result**: The API returns a 201 status code and the created task details.
+
+4. **Update Task Endpoint**
+   - **Procedure**: Send a PUT request to the `/tasks/{id}/` endpoint with updated task details and a valid token.
+   - **Expected Result**: The API returns a 200 status code and the updated task details.
+
+5. **Delete Task Endpoint**
+   - **Procedure**: Send a DELETE request to the `/tasks/{id}/` endpoint with a valid token.
+   - **Expected Result**: The API returns a 204 status code, and the task is deleted.
+
+All tests have been confirmed to have successful outcomes, ensuring the application's reliability and user satisfaction.
 
 
 ### Project Objectives
 
-- **Task Management Efficiency**: Aimed to create a user-friendly tool for managing daily tasks, enhancing personal productivity.
-- **User-Centric Design**: Focused on a design that is intuitive and accessible for all users.
+The Task Manager Application is designed with the primary goal of streamlining task management to boost personal and collaborative productivity. Key objectives of the project include:
+
+- **Enhanced Task Management Efficiency**: The application provides a robust platform for users to effortlessly create, track, and update tasks. Features such as real-time updates, categorization, prioritization, and due date reminders are implemented to ensure that users can manage their tasks more effectively, thereby increasing their daily productivity.
+
+- **Intuitive User-Centric Design**: Emphasizing a user-first approach, the application boasts an intuitive interface that caters to users of all technical skill levels. Attention to detail in the UX/UI design ensures seamless navigation, accessibility, and a satisfying user experience. Responsive design ensures that the application is fully functional across various devices, further enhancing user engagement.
+
+- **Security and User Privacy**: With a secure authentication system and privacy controls, users can manage their tasks with confidence, knowing their data is protected.
+
+- **Continuous Improvement**: The application is built with scalability in mind, open to future enhancements and integrations to meet evolving user needs and incorporate the latest technological advancements.
+
 
 
 ## Deployment

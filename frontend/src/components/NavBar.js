@@ -3,17 +3,14 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import logo from '../assets/logo.jpg';
 import styles from '../styles/NavBar.module.css';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
-
-
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
-
 import axios from 'axios';
 import useClickOutsideToggle from '../hooks/useClickOutsideToggle';
 
 const NavBar = () => {
+
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser()
-
     const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
     const handlesignOut = async () => {
@@ -50,7 +47,6 @@ const NavBar = () => {
                 <i className="fa-solid fa-pen-to-square">
                 </i>Sign Up</NavLink> </>;
     
-    // Logged status indicator
     const loggedStatusIndicator = currentUser ? (
         <div >
             <i className="fa-solid fa-user-check"></i> Logged In

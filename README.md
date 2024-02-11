@@ -4,6 +4,11 @@ Task Manager is a comprehensive web application designed to help users efficient
 
 ## Features
 
+## Authentication
+![](media/readme_images/SignUp.png)
+![](media/readme_images/SignIn.png)
+- The user is met by a form to either sign in if they have an account, otherwize a link to a sign up form is provided.
+
 ### Home Page
 
 - A welcoming homepage that presents an overview of the application and its features.
@@ -13,7 +18,11 @@ Task Manager is a comprehensive web application designed to help users efficient
 
 ### Task Creation and Management
 
-- Users can easily create new tasks, specifying details such as title, description, and due date.
+![](media/readme_images/TaskCreate.png)
+![](media/readme_images/EditTask.png)
+![](media/readme_images/TaskDetail.png)
+
+- Users can easily create/edit and delete tasks, specifying details such as title, category, description,priority and due date.
 - Tasks are displayed in a clear and organized manner, allowing users to quickly scan their to-dos.
 
 ### Real-time Updates
@@ -27,11 +36,67 @@ Task Manager is a comprehensive web application designed to help users efficient
 
 ![](media/readme_images/responsive.png)
 
+### Project Objectives
+
+The Task Manager Application is designed with the primary goal of streamlining task management to boost personal and collaborative productivity. Key objectives of the project include:
+
+- **Enhanced Task Management Efficiency**: The application provides a robust platform for users to effortlessly create, track, and update tasks. Features such as real-time updates, categorization, prioritization, and due date reminders are implemented to ensure that users can manage their tasks more effectively.
+
+- **Intuitive User-Centric Design**: Emphasizing a user-first approach, the application boasts an intuitive interface. The UX/UI design ensures seamless navigation, accessibility, and a satisfying user experience. Responsive design ensures that the application is fully functional across various devices.
+
+- **Collaboration and Sharing**: Recognizing the importance of teamwork and collaboration in task management, the application supports task sharing and collaboration features. This allows users to work together on shared tasks, improving efficiency and fostering a collaborative work environment.
+
+- **Security and User Privacy**: With a secure authentication system and privacy controls, users can manage their tasks with confidence, knowing their data is protected.
+
+- **Continuous Improvement**: The application is built with scalability in mind, open to future enhancements and integrations to meet evolving user needs and incorporate the latest technological advancements.
+
+## UX Design Documentation
+
+The Task Manager Application's design process was planned to ensure a seamless and intuitive user experience. This section outlines the key stages of the design process.
+
+### Initial Concept and Wireframing
+
+The design process began with brainstorming sessions to identify core functionalities and user needs. This led to the creation of initial wireframes, which served as blueprints for the application layout and interaction flow.
+
+- **Home Page Wireframe**: Illustrated the layout of the homepage, including the navigation bar, task overview, and call-to-action buttons for creating new tasks, viewing profile, and adding friends.
+
+![Home Page Wireframe](media/readme_images/TaskManhomepagewireframe.png)
+
+- **Task Management Wireframe**: Showed the structure of the task creation and editing interfaces and detail views.
+
+![Task Management Wireframe](media/readme_images/TasksWireframe.png)
+
+### Design Rationale
+
+The design choices were guided by the principles of simplicity, intuitiveness, and efficiency:
+
+- **Simplicity**: A clean and straightforward layout was chosen to minimize cognitive load and make the application easy to use.
+- **Intuitiveness**: Familiar design patterns and clear visual cues were used to ensure users could naturally navigate the application.
+- **Efficiency**: The task management process was streamlined, allowing users to create, edit, and organize tasks with minimal effort.
+
+### Implementation
+
+Apart from the functionality to view or add other profiles for collaboration, Most of the design concepts were translated into the application, ensuring that the final product closely aligned with the wireframes. 
+
+## Features not yet Implemented
+
+The Task Manager Application aims to enhance its collaboration capabilities with the introduction of several new features. These features are designed to foster teamwork, streamline communication, and facilitate shared task management among users. The following are key collaboration features that are planned for future implementation:
+
+### Shared Task Lists
+
+- **Description**: Allow users to create task lists that can be shared with and accessed by multiple users. This feature will enable teams to work on shared objectives and track progress collaboratively.
+- **Benefit**: Facilitates teamwork by providing a shared space for task management, improving coordination and ensuring all team members are aligned on their goals and responsibilities.
+
+### Real-time Task Updates and Notifications
+
+- **Description**: Implement real-time updates for shared tasks, so any changes made by one user are instantly visible to all shared users. Additionally, introduce notification systems to alert users of updates, new tasks, or approaching deadlines.
+- **Benefit**: Keeps team members informed of task progress and changes, enhancing transparency and ensuring timely responses to task updates.
+
 ## Testing
 
 ### Manual Testing
 
-The Task Manager Application has undergone extensive manual testing to ensure its functionalities meet the expected standards. The tests are categorized into Frontend and API testing.
+The Task Manager Application has undergone manual testing to ensure its functionalities meet the expected standards. The tests are categorized into Frontend and API testing.
 
 ### Frontend Testing
 
@@ -96,21 +161,6 @@ The Task Manager Application has undergone extensive manual testing to ensure it
    - **Expected Result**: The API returns a 204 status code, and the task is deleted.
 
 All tests have been confirmed to have successful outcomes, ensuring the application's reliability and user satisfaction.
-
-
-### Project Objectives
-
-The Task Manager Application is designed with the primary goal of streamlining task management to boost personal and collaborative productivity. Key objectives of the project include:
-
-- **Enhanced Task Management Efficiency**: The application provides a robust platform for users to effortlessly create, track, and update tasks. Features such as real-time updates, categorization, prioritization, and due date reminders are implemented to ensure that users can manage their tasks more effectively, thereby increasing their daily productivity.
-
-- **Intuitive User-Centric Design**: Emphasizing a user-first approach, the application boasts an intuitive interface that caters to users of all technical skill levels. Attention to detail in the UX/UI design ensures seamless navigation, accessibility, and a satisfying user experience. Responsive design ensures that the application is fully functional across various devices, further enhancing user engagement.
-
-- **Security and User Privacy**: With a secure authentication system and privacy controls, users can manage their tasks with confidence, knowing their data is protected.
-
-- **Continuous Improvement**: The application is built with scalability in mind, open to future enhancements and integrations to meet evolving user needs and incorporate the latest technological advancements.
-
-
 
 ## Deployment
 

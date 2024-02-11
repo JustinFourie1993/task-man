@@ -6,7 +6,6 @@ import { removeTokenTimestamp, shouldRefreshToken } from "../utils/utils";
 
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
-
 export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
